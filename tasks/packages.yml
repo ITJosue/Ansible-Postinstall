@@ -87,11 +87,8 @@
       - vagrant-libvirt
       - ansible
       - ansible-collection-community-general
-      - podmansh
+      - podman*
       - swtpm
-      - podman-compose
-      - podman-docker
-      - podman-tui
       - qemu-img
 
       # Cockpit
