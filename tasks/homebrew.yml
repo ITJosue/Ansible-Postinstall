@@ -1,7 +1,5 @@
 ---
 - name: Ensure Homebrew is installed
-  hosts: localhost
-  become: false
   vars:
     # Define paths based on OS
     brew_install_path_linux: "/home/linuxbrew/.linuxbrew/bin/brew"
