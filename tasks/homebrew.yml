@@ -1,44 +1,53 @@
 ---
-- name: Pre-create Homebrew directory to bypass sudo requirement
+- name: Ensure Homebrew is installed
+  hosts: localhost
+  become: false
+  vars:
+    # Define paths based on OS
+    brew_install_path_linux: "/home/linuxbrew/.linuxbrew/bin/brew"
+    brew_install_path_macos: "/opt/homebrew/bin/brew"
+    
+  tasks:
+    - name: Linux | Create Homebrew directory with sudo
+      become: true
       ansible.builtin.file:
-        path: "{{ item }}"
+        path: "/home/linuxbrew"
         state: directory
-        owner: "{{ ansible_env.SUDO_USER | default(ansible_env.USER) }}"
+        owner: "{{ ansible_user_id }}"
+        group: "{{ ansible_user_id }}"
         mode: '0755'
-      loop:
-        - /home/linuxbrew
-        - /home/linuxbrew/.linuxbrew
-        
-- name: Check if Homebrew is already installed
-  ansible.builtin.command: brew --version
-  register: brew_check
-  ignore_errors: true
-  changed_when: false
+      when: ansible_os_family != 'Darwin'
 
-- name: Download and install Homebrew (Non-Interactive)
-  ansible.builtin.shell: >
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  environment:
-    NONINTERACTIVE: "1"
-  when: brew_check.rc != 0
+    - name: Check if Homebrew binary exists
+      ansible.builtin.stat:
+        path: "{{ (ansible_os_family == 'Darwin') | ternary(brew_install_path_macos, brew_install_path_linux) }}"
+      register: brew_bin
 
-- name: Add Homebrew to PATH for macOS Apple Silicon (Zsh)
-  ansible.builtin.lineinfile:
-    path: ~/.zprofile
-    line: 'eval "$(/opt/homebrew/bin/brew shellenv)"'
-    create: true
-    state: present
-  when:
-    - brew_check.rc != 0
-    - ansible_os_family == 'Darwin'
-    - ansible_machine == 'arm64'
+    - name: Download and install Homebrew (Non-Interactive)
+      ansible.builtin.shell: >
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+      environment:
+        NONINTERACTIVE: "1"
+      when: not brew_bin.stat.exists
 
-- name: Add Homebrew to PATH for Linux (Zsh/Bash)
-  ansible.builtin.lineinfile:
-    path: ~/.bashrc # Change to ~/.zshrc if using zsh on Linux
-    line: 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"'
-    create: true
-    state: present
-  when:
-    - brew_check.rc != 0
-    - ansible_os_family == 'Debian' or ansible_os_family == 'RedHat'
+    - name: macOS | Add Homebrew to Zsh profile
+      ansible.builtin.lineinfile:
+        path: "{{ ansible_user_dir }}/.zprofile"
+        line: 'eval "$(/opt/homebrew/bin/brew shellenv)"'
+        create: true
+        mode: '0644'
+      when: 
+        - ansible_os_family == 'Darwin'
+        - ansible_machine == 'arm64'
+
+    - name: Linux | Add Homebrew to Bash configuration
+      ansible.builtin.lineinfile:
+        path: "{{ ansible_user_dir }}/.bashrc"
+        line: 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"'
+        create: true
+        mode: '0644'
+      when: ansible_os_family != 'Darwin'
+
+    - name: Refresh PATH for the current Ansible session
+      ansible.builtin.set_fact:
+        ansible_env: "{{ ansible_env | combine({'PATH': (ansible_os_family == 'Darwin' | ternary('/opt/homebrew/bin:', '/home/linuxbrew/.linuxbrew/bin:')) + ansible_env.PATH}) }}"
