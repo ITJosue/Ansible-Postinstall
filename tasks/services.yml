@@ -1,0 +1,12 @@
+- name: Enable system service units
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    enabled: true
+    state: started
+  loop:
+    - podman.socket
+    - libvirtd.service
+    - fail2ban.service
+    - cockpit.socket
+    - snapd.socket
+    - nix-daemon.socket

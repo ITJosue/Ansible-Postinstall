@@ -1,0 +1,41 @@
+---
+- hosts: localhost
+  connection: local
+  become: true
+  vars:
+    hostname: "fedora" # CHANGE THIS: Desired system hostname
+    xml_dir: "$HOME/XMLs" # CHANGE THIS: Path to XML files
+
+  tasks:
+    - name: Configure repositories
+      include_tasks: tasks/repositories.yml
+
+    - name: Update system
+      include_tasks: tasks/update.yml
+
+    - name: Install packages
+      include_tasks: tasks/packages.yml
+
+    - name: Install snaps
+      include_tasks: tasks/snaps.yml
+
+    - name: Enable system services
+      include_tasks: tasks/services.yml
+
+    - name: Install flatpaks
+      include_tasks: tasks/flatpaks.yml
+
+    - name: Initialize system
+      include_tasks: tasks/initialize.yml
+
+    - name: Configure users and groups
+      include_tasks: tasks/users-groups.yml
+
+    - name: Configure virtualization
+      include_tasks: tasks/virtualization.yml
+
+    - name: Install and configure Homebrew
+      include_tasks: tasks/homebrew.yml
+      args:
+        apply:
+          become: false

@@ -1,0 +1,16 @@
+---
+os: linux
+dist: jammy
+language: python
+python: "3.11"
+
+install:
+  # Install the latest version of Ansible
+  - pip install ansible
+
+  # Check ansible version
+  - ansible --version
+
+script:
+  # Basic role syntax check
+  - ansible-playbook local.yml --syntax-check

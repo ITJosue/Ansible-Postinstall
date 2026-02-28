@@ -1,0 +1,114 @@
+---
+- name: Remove unwanted default packages
+  dnf:
+    state: absent
+    name:
+      - firefox
+      - firefox-langpacks
+      - toolbox
+      # Fedora KDE Defaults
+      - dragon
+      - okular
+      - akregator
+      - neochat
+      - korganizer
+      - kmail
+      - kaddressbook
+      - kwrite
+      - kcalc
+      # Office (Removes RPM version to avoid conflict with Snap)
+      - libreoffice*
+      
+- name: Install DNF packages
+  dnf:
+    state: present
+    name:
+      # Group
+      - "@virtualization"
+      
+      # General Utilities
+      - 7zip
+      - android-tools
+      - bleachbit
+      - calibre
+      - conda
+      - corectrl
+      - displaycal
+      - distrobox
+      - fastfetch
+      - fish
+      - gtk3-devel
+      - libva-utils
+      - pidgin
+      - pidgin-otr
+      - snapd
+      - tldr
+      - zsh
+      
+      # Browsers
+      - google-chrome-stable
+      - microsoft-edge-stable
+      
+      # Multimedia
+      - clementine
+      
+      # Development Tools
+      - gh
+      - git-lfs
+      - godot
+      - nix
+      - nix-daemon
+
+      # 3D Printing
+      - prusa-slicer
+      
+      # KDE Apps
+      - kate
+      - kmousetool
+      - krename
+      - krusader
+      - ktimer
+      - kcron
+      - kclock
+      - dolphin-plugins
+      - ksystemlog
+      - kompare
+      - nextcloud-client-dolphin
+      
+      # Container Tools
+      - buildah
+      - flatpak-builder
+      - skopeo
+      
+      # Virtualization & Dev
+      - gnome-boxes
+      - incus-*
+      - libguestfs
+      - libguestfs-tools-c
+      - vagrant
+      - vagrant-libvirt
+      - ansible
+      - ansible-collection-community-general
+      - podmansh
+      - swtpm
+      - podman-compose
+      - podman-docker
+      - podman-tui
+      - qemu-img
+
+      # Cockpit
+      - cockpit-*
+      
+      # Networking & VPN
+      - protonvpn-stable-release
+      - proton-vpn-gnome-desktop
+      - proton-vpn-cli
+      
+      # Security
+      - fail2ban
+      - fail2ban-firewalld
+      - fail2ban-systemd
+      
+      # Communication
+      - zoom
+

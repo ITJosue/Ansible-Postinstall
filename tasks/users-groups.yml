@@ -1,0 +1,15 @@
+- name: Create users and assign to necessary system groups
+  ansible.builtin.user:
+    name: "{{ item.name }}"
+    state: present
+    groups: "{{ item.groups }}"
+    append: yes # Ensures they are added to these groups without removing them from others
+    create_home: yes
+    shell: /bin/bash # /bin/bash (default), /bin/zsh, /usr/bin/fish
+  loop:
+    # Admins get root access (wheel/sudo) plus full control over all hypervisors, VPN, and hardware tweaks
+    - { name: 'admin', groups: 'sudo,wheel,libvirt,incus-admin,lxd,multipass,nordvpn,corectrl' }
+    # Standard users get VPN, GPU control, and standard virtualization access, but no sudo/wheel
+    - { name: 'user', groups: 'libvirt,incus,multipass,nordvpn,corectrl' }
+    # Guests get no special access
+    - { name: 'guest', groups: '' }

@@ -1,0 +1,40 @@
+- name: Create a symlink for snapd
+  file:
+    src: "/var/lib/snapd/snap"
+    dest: "/snap"
+    state: link
+  
+- name: Install Snap packages (Standard)
+  snap:
+    name:
+      - audacity
+      - bitwarden
+      - chromium
+      - digikam
+      - gimp
+      - gnome-characters
+      - haruna
+      - inkscape
+      - k3b
+      - kget
+      - lxd
+      - multipass
+      - nordvpn
+      - obs-studio
+      - openvino-ai-plugins-gimp
+      - openvino-toolkit-2404
+      - postman
+      - proton-mail
+      - snap-store
+      - steam
+      - telegram-desktop
+      - thunderbird
+
+- name: Install Snap packages with --classic flag
+  snap:
+    classic: yes
+    name:
+      - blender
+      - code
+      - flutter
+      - powershell
