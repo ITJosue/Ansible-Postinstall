@@ -9,13 +9,10 @@
       # Fedora KDE Defaults
       - dragon
       - okular
-      - akregator
       - neochat
-      - korganizer
-      - kmail
-      - kaddressbook
       - kwrite
       - kcalc
+      - kde-pim
       # Office (Removes RPM version to avoid conflict with Snap)
       - libreoffice*
       
