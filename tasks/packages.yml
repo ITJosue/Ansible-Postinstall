@@ -3,8 +3,7 @@
   dnf:
     state: absent
     name:
-      - firefox
-      - firefox-langpacks
+      - firefox*
       - toolbox
       # Fedora KDE Defaults
       - dragon
