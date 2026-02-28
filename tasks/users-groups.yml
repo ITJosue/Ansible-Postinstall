@@ -7,6 +7,8 @@
     create_home: yes
     shell: /bin/bash # /bin/bash (default), /bin/zsh, /usr/bin/fish
   loop:
+    # Current user running the playbook (captures the real user even if running via sudo)
+    - { name: "{{ ansible_env.SUDO_USER | default(ansible_env.USER) }}", groups: 'wheel,libvirt,incus-admin,lxd' }
     # Admins get root access (wheel) plus full control over hypervisors (libvirt, incus-admin, lxd)
     - { name: 'admin', groups: 'wheel,libvirt,incus-admin,lxd' }
     # Standard users get standard virtualization access (libvirt, incus), but no wheel
