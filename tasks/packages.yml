@@ -12,7 +12,7 @@
       - neochat
       - kwrite
       - kcalc
-      - kde-pim
+      - kdepim*
       # Office (Removes RPM version to avoid conflict with Snap)
       - libreoffice*
       
