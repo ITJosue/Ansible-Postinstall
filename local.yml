@@ -34,8 +34,15 @@
  #   - name: Configure virtualization
  #     include_tasks: tasks/virtualization.yml
 
-    - name: Install and configure Homebrew
-      include_tasks: tasks/homebrew.yml
-      args:
-        apply:
-          become: false
+- name: Install and configure Homebrew for specific users
+    include_tasks: tasks/homebrew.yml
+    loop:
+      - "{{ ansible_env.SUDO_USER | default(ansible_env.USER) }}" # The current user
+      - admin
+      - user
+    loop_control:
+      loop_var: brew_user # Renames 'item' to 'brew_user' to avoid conflicts inside homebrew.yml
+    args:
+      apply:
+        become: yes
+        become_user: "{{ brew_user }}"
