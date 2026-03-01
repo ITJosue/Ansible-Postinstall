@@ -61,10 +61,10 @@ vars:
 sudo ansible-playbook local.yml
 ```
 
-Or pull and run directly from GitHub:
+Or run directly from GitHub:
 
 ```bash
-sudo ansible-pull -U https://github.com/ITJosue/Ansible-Postinstall.git
+curl -sSL https://github.com/ITJosue/Ansible-Postinstall/raw/refs/heads/main/postinstall.sh | bash
 ```
 
 ---
