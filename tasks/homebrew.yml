@@ -1,6 +1,8 @@
-- name: Set Homebrew binary variable
+---
+- name: Set Homebrew binary and path variables
   set_fact:
     homebrew_bin: "/home/linuxbrew/.linuxbrew/bin/brew"
+    homebrew_path: "/home/linuxbrew/.linuxbrew/bin"
 
 - name: Check if Homebrew is installed
   ansible.builtin.stat:
@@ -22,3 +24,37 @@
     regexp: 'linuxbrew/bin/brew shellenv'
     create: yes
     state: present
+
+- name: Add required Homebrew tap
+  community.general.homebrew_tap:
+    name: "valkyrie00/bbrew"
+    state: present
+    path: "{{ homebrew_path }}"
+
+- name: Install Homebrew packages from Brewfile
+  community.general.homebrew:
+    name:
+      - "atuin"
+      - "bat"
+      - "bash-preexec"
+      - "valkyrie00/bbrew/bbrew"
+      - "chezmoi"
+      - "direnv"
+      - "dysk"
+      - "eza"
+      - "fd"
+      - "gh"
+      - "glab"
+      - "rg"
+      - "starship"
+      - "shellcheck"
+      - "stress-ng"
+      - "tealdeer"
+      - "trash-cli"
+      - "television"
+      - "ugrep"
+      - "yq"
+      - "zoxide"
+    state: present
+    update_homebrew: yes
+    path: "{{ homebrew_path }}"
