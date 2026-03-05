@@ -1,8 +1,8 @@
 ---
 - name: Remove unwanted default packages
   dnf:
-    autoremove: true
     state: absent
+    autoremove: true
     name:
       - firefox
       - toolbox
