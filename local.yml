@@ -34,9 +34,9 @@
  #   - name: Configure virtualization
  #     include_tasks: tasks/virtualization.yml
 
-    - name: Install and configure Homebrew
-      include_tasks: tasks/homebrew.yml
-      args:
-        apply:
-          become: yes
-          become_user: "{{ ansible_env.SUDO_USER | default(ansible_env.USER) }}"
+ #   - name: Install and configure Homebrew
+ #     include_tasks: tasks/homebrew.yml
+ #     args:
+ #       apply:
+ #         become: yes
+ #         become_user: "{{ ansible_env.SUDO_USER | default(ansible_env.USER) }}"
