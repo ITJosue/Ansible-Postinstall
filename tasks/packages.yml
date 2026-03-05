@@ -1,9 +1,10 @@
 ---
 - name: Remove unwanted default packages
   dnf:
+    autoremove: true
     state: absent
     name:
-      - firefox*
+      - firefox
       - toolbox
       # Fedora KDE Defaults
       - dragon
@@ -12,10 +13,11 @@
       - akregator
       - kwrite
       - kcalc
-      - kdepim*
+      - kdepim
       # Office (Removes RPM version to avoid conflict with Snap)
-      - libreoffice*
-      
+      - libreoffice
+
+            
 - name: Install DNF packages
   dnf:
     state: present
