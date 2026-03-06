@@ -9,7 +9,7 @@
   ansible.builtin.debug:
     msg: "{{ dnf_shell_output.stdout_lines }}"
 
-- name: Execute the packages setup script with sudo
+- name: Install packages script
   ansible.builtin.script: ../Scripts/packages.sh
   become: true
   args:
