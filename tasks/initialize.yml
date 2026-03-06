@@ -2,5 +2,7 @@
   ansible.builtin.hostname:
     name: "{{ hostname }}"
     
-- name: Define VM 
-  command: virsh define "{{ ../VMs/ | basename }}"
+- name: Define VMs via virsh
+  command: "virsh define {{ item }}"
+  with_fileglob:
+    - "../VMs/*.xml"
