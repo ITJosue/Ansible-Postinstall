@@ -1,17 +1,3 @@
 - name: Set system hostname
   ansible.builtin.hostname:
     name: "{{ hostname }}"
-
-- name: Initialize Incus with minimal configuration
-  ansible.builtin.command:
-    cmd: incus admin init --minimal
-  register: incus_init
-  changed_when: incus_init.rc == 0
-  failed_when: incus_init.rc != 0 and 'already' not in incus_init.stderr
-
-- name: Initialize LXD with default automatic configuration
-  ansible.builtin.command:
-    cmd: lxd init --auto
-  register: lxd_init
-  changed_when: lxd_init.rc == 0
-  failed_when: lxd_init.rc != 0 and 'already initialized' not in lxd_init.stderr
