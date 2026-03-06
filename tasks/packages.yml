@@ -8,98 +8,28 @@
 - name: Print the DNF removal output
   ansible.builtin.debug:
     msg: "{{ dnf_shell_output.stdout_lines }}"
-            
-- name: Install DNF packages
-  dnf:
-    state: present
-    name:
-      # Group
-      - "@virtualization"
-      
-      # General Utilities
-      - 7zip
-      - android-tools
-      - bleachbit
-      - calibre
-      - conda
-      - corectrl
-      - displaycal
-      - distrobox
-      - fastfetch
-      - fish
-      - gtk3-devel
-      - libva-utils
-      - pidgin
-      - pidgin-otr
-      - snapd
-      - tldr
-      - zsh
-      
-      # Browsers
-      - google-chrome-stable
-      - microsoft-edge-stable
-      
-      # Multimedia
-      - clementine
-      
-      # Development Tools
-      - gh
-      - git-lfs
-      - godot
-      - nix
-      - nix-daemon
 
-      # 3D Printing
-      - prusa-slicer
-      
-      # KDE Apps
-      - kate
-      - kmousetool
-      - krename
-      - krusader
-      - ktimer
-      - kcron
-      - kclock
-      - dolphin-plugins
-      - ksystemlog
-      - kompare
-      - nextcloud-client-dolphin
-      
-      # Container Tools
-      - buildah
-      - flatpak-builder
-      - skopeo
-      
-      # Virtualization & Dev
-      - gnome-boxes
-      - incus-*
-      - libguestfs
-      - libguestfs-tools-c
-      - vagrant
-      - vagrant-libvirt
-      - ansible
-      - ansible-collection-community-general
-      - podman*
-      - swtpm
-      - qemu-img
+- name: Install DNF packages via DNF shell command
+  ansible.builtin.shell: >
+    dnf install -y
+    @virtualization
+    7zip android-tools bleachbit calibre conda corectrl displaycal distrobox fastfetch fish gtk3-devel libva-utils pidgin pidgin-otr snapd tldr zsh
+    google-chrome-stable microsoft-edge-stable
+    clementine
+    gh git-lfs godot nix nix-daemon
+    prusa-slicer
+    kate kmousetool krename krusader ktimer kcron kclock dolphin-plugins ksystemlog kompare nextcloud-client-dolphin
+    buildah flatpak-builder skopeo
+    gnome-boxes 'incus-*' libguestfs libguestfs-tools-c vagrant vagrant-libvirt ansible ansible-collection-community-general 'podman*' swtpm qemu-img
+    'cockpit-*'
+    protonvpn-stable-release proton-vpn-gnome-desktop proton-vpn-cli
+    fail2ban fail2ban-firewalld fail2ban-systemd
+    zoom
+    google-noto-fonts-all google-noto-color-emoji-fonts rsms-inter-fonts
+  become: true
+  register: dnf_install_shell_output
+  changed_when: "'Nothing to do' not in dnf_install_shell_output.stdout"
 
-      # Cockpit
-      - cockpit-*
-      
-      # Networking & VPN
-      - protonvpn-stable-release
-      - proton-vpn-gnome-desktop
-      - proton-vpn-cli
-      
-      # Security
-      - fail2ban
-      - fail2ban-firewalld
-      - fail2ban-systemd
-      
-      # Communication
-      - zoom
-      # Fonts
-      - google-noto-fonts-all
-      - google-noto-color-emoji-fonts
-      - rsms-inter-fonts
-
+- name: Print the DNF installation output
+  ansible.builtin.debug:
+    msg: "{{ dnf_install_shell_output.stdout_lines }}"
