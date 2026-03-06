@@ -8,17 +8,15 @@
 - name: Print the DNF removal output
   ansible.builtin.debug:
     msg: "{{ dnf_shell_output.stdout_lines }}"
-    
-- name: Install Group packages
+            
+- name: Install DNF packages
   dnf:
     state: present
     name:
+      # Group
       - "@virtualization"
-
-- name: Install General Utilities
-  dnf:
-    state: present
-    name:
+      
+      # General Utilities
       - 7zip
       - android-tools
       - bleachbit
@@ -36,108 +34,72 @@
       - snapd
       - tldr
       - zsh
-
-- name: Install Browsers
-  dnf:
-    state: present
-    name:
+      
+      # Browsers
       - google-chrome-stable
       - microsoft-edge-stable
-
-- name: Install Multimedia
-  dnf:
-    state: present
-    name:
+      
+      # Multimedia
       - clementine
-
-- name: Install Development Tools
-  dnf:
-    state: present
-    name:
+      
+      # Development Tools
       - gh
       - git-lfs
       - godot
       - nix
       - nix-daemon
 
-- name: Install 3D Printing
-  dnf:
-    state: present
-    name:
+      # 3D Printing
       - prusa-slicer
-
-- name: Install KDE Apps
-  dnf:
-    state: present
-    name:
-      - dolphin-plugins
+      
+      # KDE Apps
       - kate
-      - kclock
-      - kcron
       - kmousetool
-      - kompare
       - krename
       - krusader
-      - ksystemlog
       - ktimer
+      - kcron
+      - kclock
+      - dolphin-plugins
+      - ksystemlog
+      - kompare
       - nextcloud-client-dolphin
-
-- name: Install Container Tools
-  dnf:
-    state: present
-    name:
+      
+      # Container Tools
       - buildah
       - flatpak-builder
       - skopeo
-
-- name: Install Virtualization & Dev
-  dnf:
-    state: present
-    name:
-      - ansible
-      - ansible-collection-community-general
+      
+      # Virtualization & Dev
       - gnome-boxes
       - incus-*
       - libguestfs
       - libguestfs-tools-c
-      - podman*
-      - qemu-img
-      - swtpm
       - vagrant
       - vagrant-libvirt
+      - ansible
+      - ansible-collection-community-general
+      - podman*
+      - swtpm
+      - qemu-img
 
-- name: Install Cockpit
-  dnf:
-    state: present
-    name:
+      # Cockpit
       - cockpit-*
-
-- name: Install Networking & VPN
-  dnf:
-    state: present
-    name:
-      - proton-vpn-cli
-      - proton-vpn-gnome-desktop
+      
+      # Networking & VPN
       - protonvpn-stable-release
-
-- name: Install Security
-  dnf:
-    state: present
-    name:
+      - proton-vpn-gnome-desktop
+      - proton-vpn-cli
+      
+      # Security
       - fail2ban
       - fail2ban-firewalld
       - fail2ban-systemd
-
-- name: Install Communication
-  dnf:
-    state: present
-    name:
+      
+      # Communication
       - zoom
-
-- name: Install Fonts
-  dnf:
-    state: present
-    name:
-      - google-noto-color-emoji-fonts
+      # Fonts
       - google-noto-fonts-all
+      - google-noto-color-emoji-fonts
       - rsms-inter-fonts
+
