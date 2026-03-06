@@ -1,31 +1,54 @@
 ---
-- name: Remove unwanted default packages
+- name: Remove akregator*
   dnf:
     state: absent
     autoremove: true
     name:
-      - firefox
-      - toolbox
-      # Fedora KDE Defaults
-      - dragon
-      - okular
-      - neochat
-      - akregator
-      - kwrite
-      - kcalc
-      - kdepim
-      # Office (Removes RPM version to avoid conflict with Snap)
-      - libreoffice
+      - akregator*
+      
+- name: Remove firefox*
+  dnf:
+    state: absent
+    autoremove: true
+    name:
+      - firefox*
 
-            
-- name: Install DNF packages
+- name: Remove kdepim*
+  dnf:
+    state: absent
+    autoremove: true
+    name:
+      - kdepim*
+
+- name: Remove libreoffice*
+  dnf:
+    state: absent
+    autoremove: true
+    name:
+      - libreoffice*
+
+- name: Remove more unwanted default packages
+  dnf:
+    state: absent
+    autoremove: true
+    name:
+      - dragon
+      - kcalc
+      - kwrite
+      - neochat
+      - okular
+      - toolbox
+
+- name: Install Group packages
   dnf:
     state: present
     name:
-      # Group
       - "@virtualization"
-      
-      # General Utilities
+
+- name: Install General Utilities
+  dnf:
+    state: present
+    name:
       - 7zip
       - android-tools
       - bleachbit
@@ -43,72 +66,108 @@
       - snapd
       - tldr
       - zsh
-      
-      # Browsers
+
+- name: Install Browsers
+  dnf:
+    state: present
+    name:
       - google-chrome-stable
       - microsoft-edge-stable
-      
-      # Multimedia
+
+- name: Install Multimedia
+  dnf:
+    state: present
+    name:
       - clementine
-      
-      # Development Tools
+
+- name: Install Development Tools
+  dnf:
+    state: present
+    name:
       - gh
       - git-lfs
       - godot
       - nix
       - nix-daemon
 
-      # 3D Printing
+- name: Install 3D Printing
+  dnf:
+    state: present
+    name:
       - prusa-slicer
-      
-      # KDE Apps
+
+- name: Install KDE Apps
+  dnf:
+    state: present
+    name:
+      - dolphin-plugins
       - kate
+      - kclock
+      - kcron
       - kmousetool
+      - kompare
       - krename
       - krusader
-      - ktimer
-      - kcron
-      - kclock
-      - dolphin-plugins
       - ksystemlog
-      - kompare
+      - ktimer
       - nextcloud-client-dolphin
-      
-      # Container Tools
+
+- name: Install Container Tools
+  dnf:
+    state: present
+    name:
       - buildah
       - flatpak-builder
       - skopeo
-      
-      # Virtualization & Dev
+
+- name: Install Virtualization & Dev
+  dnf:
+    state: present
+    name:
+      - ansible
+      - ansible-collection-community-general
       - gnome-boxes
       - incus-*
       - libguestfs
       - libguestfs-tools-c
+      - podman*
+      - qemu-img
+      - swtpm
       - vagrant
       - vagrant-libvirt
-      - ansible
-      - ansible-collection-community-general
-      - podman*
-      - swtpm
-      - qemu-img
 
-      # Cockpit
+- name: Install Cockpit
+  dnf:
+    state: present
+    name:
       - cockpit-*
-      
-      # Networking & VPN
-      - protonvpn-stable-release
-      - proton-vpn-gnome-desktop
+
+- name: Install Networking & VPN
+  dnf:
+    state: present
+    name:
       - proton-vpn-cli
-      
-      # Security
+      - proton-vpn-gnome-desktop
+      - protonvpn-stable-release
+
+- name: Install Security
+  dnf:
+    state: present
+    name:
       - fail2ban
       - fail2ban-firewalld
       - fail2ban-systemd
-      
-      # Communication
-      - zoom
-      # Fonts
-      - google-noto-fonts-all
-      - google-noto-color-emoji-fonts
-      - rsms-inter-fonts
 
+- name: Install Communication
+  dnf:
+    state: present
+    name:
+      - zoom
+
+- name: Install Fonts
+  dnf:
+    state: present
+    name:
+      - google-noto-color-emoji-fonts
+      - google-noto-fonts-all
+      - rsms-inter-fonts
